@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glamor Auth - Uji Supabase</title>
+    
+    <!-- Impor Font dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Impor Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        :root {
+            --primary-color: #D4AF37; /* Emas */
+            --background-start: #1a1a2e;
+            --background-end: #16213e;
+            --text-color: #f0f0f0;
+            --card-background: rgba(255, 255, 255, 0.08);
+            --border-color: rgba(255, 255, 255, 0.2);
+            --success-color: #28a745;
+            --error-color: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--background-start), var(--background-end));
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            text-align: center;
+        }
+
+        .auth-card h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .auth-card p {
+            font-size: 0.9em;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1em;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 10px;
+            color: #111;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #e7c35a;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .submit-btn.loading {
+            cursor: not-allowed;
+            background-color: #b0912f;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+            min-height: 20px;
+        }
+        
+        #message.success { color: var(--success-color); }
+        #message.error { color: var(--error-color); }
+
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>Glamor</h1>
+            <p>Buat akun untuk memulai perjalanan eksklusif Anda.</p>
+            
+            <form id="register-form">
+                <div class="input-group">
+                    <label for="email">Alamat Email</label>
+                    <input type="email" id="email" class="input-field" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Kata Sandi</label>
+                    <input type="password" id="password" class="input-field" required minlength="6">
+                </div>
+                
+                <button type="submit" id="submit-button" class="submit-btn">
+                    Daftar Sekarang
+                </button>
+            </form>
+            
+            <div id="message"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- KONFIGURASI SUPABASE ---
+        // Ganti dengan URL dan Kunci Anon Supabase proyek Anda.
+        const SUPABASE_URL = 'https://itwrzihipeaimcqcqlpz.supabase.co'; 
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0d3J6aWhpcGVhaW1jcWNxbHB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDU0NzcsImV4cCI6MjA2NzcyMTQ3N30.xNsJ5PB5W-GsUuqXBJ8AL7c8M2ndPsCvKOUGeAUqLs0';
+
+        // --- Inisialisasi Klien Supabase ---
+        // Pastikan URL dan Kunci sudah diisi sebelum melanjutkan.
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // --- Elemen DOM ---
+        const registerForm = document.getElementById('register-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const submitButton = document.getElementById('submit-button');
+        const messageDiv = document.getElementById('message');
+
+        // --- Logika Pendaftaran ---
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Mencegah form untuk reload halaman
+
+            // Memberikan umpan balik visual saat proses berjalan
+            submitButton.disabled = true;
+            submitButton.textContent = 'Memproses...';
+            submitButton.classList.add('loading');
+            messageDiv.textContent = '';
+            messageDiv.className = '';
+
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            
+            if (SUPABASE_URL === 'https://itwrzihipeaimcqcqlpz.supabase.co' || SUPABASE_ANON_KEY === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0d3J6aWhpcGVhaW1jcWNxbHB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDU0NzcsImV4cCI6MjA2NzcyMTQ3N30.xNsJ5PB5W-GsUuqXBJ8AL7c8M2ndPsCvKOUGeAUqLs0') {
+                messageDiv.textContent = 'Error: Konfigurasi Supabase belum diisi!';
+                messageDiv.className = 'error';
+                
+                submitButton.disabled = false;
+                submitButton.textContent = 'Daftar Sekarang';
+                submitButton.classList.remove('loading');
+                return;
+            }
+
+            try {
+                // Memanggil fungsi signUp dari Supabase
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                });
+
+                if (error) {
+                    // Jika terjadi error, tampilkan pesan error
+                    throw error;
+                }
+                
+                // Jika berhasil, tampilkan pesan sukses
+                // Catatan: Supabase biasanya mengirim email konfirmasi.
+                messageDiv.textContent = 'Pendaftaran berhasil! Silakan periksa email Anda untuk verifikasi.';
+                messageDiv.className = 'success';
+                registerForm.reset(); // Mengosongkan form
+
+            } catch (error) {
+                // Menangkap dan menampilkan pesan error yang lebih mudah dibaca
+                messageDiv.textContent = `Error: ${error.message}`;
+                messageDiv.className = 'error';
+            } finally {
+                // Mengembalikan tombol ke keadaan normal setelah proses selesai
+                submitButton.disabled = false;
+                submitButton.textContent = 'Daftar Sekarang';
+                submitButton.classList.remove('loading');
+            }
+        });
+    </script>
+</body>
+</html>
