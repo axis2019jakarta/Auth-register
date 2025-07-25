@@ -167,7 +167,7 @@
 
         .product-image-container {
             width: 100%;
-            padding-top: 100%;
+            padding-top: 100%; /* 1:1 Aspect Ratio */
             position: relative;
             background-color: #f0f0f0;
         }
@@ -179,8 +179,34 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0; /* Mulai dengan gambar transparan */
+        }
+
+        .product-image.loaded {
+            opacity: 1; /* Tampilkan gambar setelah dimuat */
         }
         
+        /* -- Style untuk Loader -- */
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 4px solid #e0e0e0;
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            width: 40px;
+            height: 40px;
+            animation: spin 1.5s linear infinite;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
         .product-info {
             padding: 1.5rem;
             flex-grow: 1;
@@ -237,16 +263,9 @@
         }
 
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            .logo {
-                font-size: 1.5rem;
-            }
-            .menu-icons a {
-                font-size: 1.2rem;
-                margin-left: 1rem;
-            }
+            .hero h1 { font-size: 2.5rem; }
+            .logo { font-size: 1.5rem; }
+            .menu-icons a { font-size: 1.2rem; margin-left: 1rem; }
         }
     </style>
 </head>
@@ -279,63 +298,80 @@
     </main>
     
     <footer>
-        <p>© 2024 Nabila Shop. Dibuat dengan <i class="fas fa-heart" style="color: #FF69B4;"></i>.</p>
+        <p>© 2025 Nabila Shop. Dibuat dengan <i class="fas fa-heart" style="color: #FF69B4;"></i>.</p>
     </footer>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Daftar semua produk yang Anda berikan
         const products = [
-            { name: 'Lipstik Batang Matte Maybelline/Revlon', price: '14,0RB', link: 'https://s.shopee.co.id/9zn2bhyrLO', shopeeLink: 'https://shopee.co.id/product/391401723/29322041131'},
-            { name: 'SAMPUL BUKU AESTHETIC - 10 LEMBAR', price: '28,5RB', link: 'https://s.shopee.co.id/801yF1Toh6', shopeeLink: 'https://shopee.co.id/product/227381251/16478391377'},
-            { name: 'Rak Dapur Serbaguna Minimalis', price: '173,6RB', link: 'https://s.shopee.co.id/AKPt1LgGJ6', shopeeLink: 'https://shopee.co.id/product/1012592182/22770999582'},
-            { name: 'Kasur Gender Tebal 6cm [COD]', price: '76,6RB', link: 'https://s.shopee.co.id/4flWGyW6F6', shopeeLink: 'https://shopee.co.id/product/918275376/19468201309'},
-            { name: 'HNF CCTV Kamera Outdoor 8MP Tahan Air', price: '59,8RB', link: 'https://s.shopee.co.id/6fWaegwSmW', shopeeLink: 'https://shopee.co.id/product/1443138536/26323503668'},
-            { name: 'Gamis Muslim Midi Dress Terbaru', price: '183,0RB', link: 'https://s.shopee.co.id/VvxJOsk2T', shopeeLink: 'https://shopee.co.id/product/251189623/41158348762'},
-            { name: 'sampo pentene renceng murah', price: '7,0RB', link: 'https://s.shopee.co.id/8KeodonTIi', shopeeLink: 'https://shopee.co.id/product/229065050/44358123575'},
-            { name: 'Harsa - Parfume Wanita Terlaris', price: '10,0RB', link: 'https://s.shopee.co.id/30dII4lfng', shopeeLink: 'https://shopee.co.id/product/37752811/44408783002'},
-            { name: 'Baso Aci 3 Bungkus Hemat', price: '7,5RB', link: 'https://s.shopee.co.id/9KXLprvfUs', shopeeLink: 'https://shopee.co.id/product/295091827/24357694999'},
-            { name: 'SABUN MANDI Cair 1 Liter Repack', price: '14,9RB', link: 'https://s.shopee.co.id/9Uqm2Av29v', shopeeLink: 'https://shopee.co.id/product/1171450817/25860472987'},
-            { name: 'KERIPIK NANGKA OVEN SUPER 100GR', price: '21,0RB', link: 'https://s.shopee.co.id/8zuVRFwwAq', shopeeLink: 'https://shopee.co.id/product/70834502/7216928128'},
-            { name: '36 pcs RINSO MOLTO CAIR RENCENGAN', price: '17,8RB', link: 'https://s.shopee.co.id/9ADvdYwIpt', shopeeLink: 'https://shopee.co.id/product/148700842/20881892360'},
-            { name: 'Minyak Goreng Pouch Murah', price: '27,9RB', link: 'https://s.shopee.co.id/8fHf2dyCqo', shopeeLink: 'https://shopee.co.id/product/164872877/16697846407'},
-            { name: 'Rak Sepatu Duduk Sofa Multifungsi', price: '150,0RB', link: 'https://s.shopee.co.id/8pb5EwxZVr', shopeeLink: 'https://shopee.co.id/product/514778925/21786530590'},
-            { name: 'YLV Controller Joystick X3 Gamepad', price: '99,0RB', link: 'https://s.shopee.co.id/8Keoe1zTWm', shopeeLink: 'https://shopee.co.id/product/455517881/29612438533'},
-            { name: 'HANASUI MINIPINK Series Lip Cream', price: '8,4RB', link: 'https://s.shopee.co.id/8UyEqKyqBp', shopeeLink: 'https://shopee.co.id/product/539077923/25200955604'},
-            { name: 'otak otak ikan 500gr fresh', price: '8,2RB', link: 'https://s.shopee.co.id/801yFQ0kCk', shopeeLink: 'https://shopee.co.id/product/342863247/22186730339'},
-            { name: 'Baso aci 5 bungkus hemat jeletot', price: '11,3RB', link: 'https://s.shopee.co.id/8ALORj06rn', shopeeLink: 'https://shopee.co.id/product/295091827/24657699989'},
-            { name: 'Promo Daster Resleting Termurah', price: '20,0RB', link: 'https://s.shopee.co.id/7fP7qo20si', shopeeLink: 'https://shopee.co.id/product/1166499501/29776624296'},
-            { name: 'jambu kristal 1 kg', price: '11,5RB', link: 'https://s.shopee.co.id/7fP7qx2z32', shopeeLink: 'https://shopee.co.id/product/1306874524/28705276051'},
-            { name: 'BUY 1 GET 3 Makarizo Shampoo', price: '60,5RB', link: 'https://s.shopee.co.id/2B4BNZPwFk', shopeeLink: 'https://shopee.co.id/product/18102367/40804766941'},
-            { name: 'Tas Louis Panda 295 Free Paper bag', price: '112,0RB', link: 'https://s.shopee.co.id/20klBGQZaj', shopeeLink: 'https://shopee.co.id/product/263090906/28374526856'},
-            { name: 'GR Parfume - Full Bibit 20 ML', price: '11,0RB', link: 'https://s.shopee.co.id/2Vh1mBOfZq', shopeeLink: 'https://shopee.co.id/product/54668159/40553723161'},
-            { name: 'Implora Hair Color [3 PCS]', price: '15,0RB', link: 'https://s.shopee.co.id/2LNbZsPIup', shopeeLink: 'https://shopee.co.id/product/10960132/26703602720'},
-            { name: 'hijab segiempat paris polos varisha', price: '15,0RB', link: 'https://s.shopee.co.id/1VoUaLSTbg', shopeeLink: 'https://shopee.co.id/product/163167362/10998582595'},
-            { name: 'Tas Selempang Simpel Elegan Yaguma', price: '43,6RB', link: 'https://s.shopee.co.id/1qRKyxRCvm', shopeeLink: 'https://shopee.co.id/product/876726680/26761713225'},
-            { name: 'Hijab Instan Ayesa Tali Stopper', price: '47,4RB', link: 'https://s.shopee.co.id/1g7umeRqGl', shopeeLink: 'https://shopee.co.id/product/48127835/27186988509'},
-            { name: 'Jims Honey - Ingrid Bag', price: '199,0RB', link: 'https://s.shopee.co.id/qYnn7V0xc', shopeeLink: 'https://shopee.co.id/product/17074378/25133241223'},
-            { name: 'TOTEBAG SUMBU jelita viral', price: '5,5RB', link: 'https://s.shopee.co.id/gFNaoVeIb', shopeeLink: 'https://shopee.co.id/product/374958932/24986737768'},
-            { name: 'Mlen Diary - Bulu Mata Palsu + Lem', price: '46,0RB', link: 'https://s.shopee.co.id/1BBeBjTkHi', shopeeLink: 'https://shopee.co.id/product/1102758398/26164807636'},
-            { name: 'BUY 1 GET 1 Oneset Nina Simple', price: '116,9RB', link: 'https://s.shopee.co.id/10sDzQUNch', shopeeLink: 'https://shopee.co.id/product/30507741/26667259489'},
-            { name: 'BUY 1 GET 1 Oneset Serut Nayla', price: '100,0RB', link: 'https://s.shopee.co.id/BJ6ztXYJY', shopeeLink: 'https://shopee.co.id/product/30507741/27160029733'},
-            { name: 'Wardah Lightening Powder SPF 40', price: '16,4RB', link: 'https://s.shopee.co.id/zgnaYBeX', shopeeLink: 'https://shopee.co.id/product/1400037434/25940773684'},
-            { name: 'TEBUS MURAH BAJU NFASHION', price: '60,0RB', link: 'https://s.shopee.co.id/4flWMAGQBV', shopeeLink: 'https://shopee.co.id/product/526899373/27172056916'},
-            { name: 'Atasan Amanda Hirembulan', price: '100,0RB', link: 'https://s.shopee.co.id/5Ahmx5EWAc', shopeeLink: 'https://shopee.co.id/product/859640228/22865013586'}
+            { id: 'p1', name: 'Lipstik Batang Matte Maybelline/Revlon', price: '14,0RB', link: 'https://s.shopee.co.id/9zn2bhyrLO', shopeeLink: 'https://shopee.co.id/product/391401723/29322041131'},
+            { id: 'p2', name: 'SAMPUL BUKU AESTHETIC - 10 LEMBAR', price: '28,5RB', link: 'https://s.shopee.co.id/801yF1Toh6', shopeeLink: 'https://shopee.co.id/product/227381251/16478391377'},
+            { id: 'p3', name: 'Rak Dapur Serbaguna Minimalis', price: '173,6RB', link: 'https://s.shopee.co.id/AKPt1LgGJ6', shopeeLink: 'https://shopee.co.id/product/1012592182/22770999582'},
+            { id: 'p4', name: 'Kasur Gender Tebal 6cm [COD]', price: '76,6RB', link: 'https://s.shopee.co.id/4flWGyW6F6', shopeeLink: 'https://shopee.co.id/product/918275376/19468201309'},
+            { id: 'p5', name: 'HNF CCTV Kamera Outdoor 8MP Tahan Air', price: '59,8RB', link: 'https://s.shopee.co.id/6fWaegwSmW', shopeeLink: 'https://shopee.co.id/product/1443138536/26323503668'},
+            { id: 'p6', name: 'Gamis Muslim Midi Dress Terbaru', price: '183,0RB', link: 'https://s.shopee.co.id/VvxJOsk2T', shopeeLink: 'https://shopee.co.id/product/251189623/41158348762'},
+            { id: 'p7', name: 'sampo pentene renceng murah', price: '7,0RB', link: 'https://s.shopee.co.id/8KeodonTIi', shopeeLink: 'https://shopee.co.id/product/229065050/44358123575'},
+            { id: 'p8', name: 'Harsa - Parfume Wanita Terlaris', price: '10,0RB', link: 'https://s.shopee.co.id/30dII4lfng', shopeeLink: 'https://shopee.co.id/product/37752811/44408783002'},
+            { id: 'p9', name: 'Baso Aci 3 Bungkus Hemat', price: '7,5RB', link: 'https://s.shopee.co.id/9KXLprvfUs', shopeeLink: 'https://shopee.co.id/product/295091827/24357694999'},
+            { id: 'p10', name: 'SABUN MANDI Cair 1 Liter Repack', price: '14,9RB', link: 'https://s.shopee.co.id/9Uqm2Av29v', shopeeLink: 'https://shopee.co.id/product/1171450817/25860472987'},
+            { id: 'p11', name: 'KERIPIK NANGKA OVEN SUPER 100GR', price: '21,0RB', link: 'https://s.shopee.co.id/8zuVRFwwAq', shopeeLink: 'https://shopee.co.id/product/70834502/7216928128'},
+            { id: 'p12', name: '36 pcs RINSO MOLTO CAIR RENCENGAN', price: '17,8RB', link: 'https://s.shopee.co.id/9ADvdYwIpt', shopeeLink: 'https://shopee.co.id/product/148700842/20881892360'},
+            { id: 'p13', name: 'Minyak Goreng Pouch Murah', price: '27,9RB', link: 'https://s.shopee.co.id/8fHf2dyCqo', shopeeLink: 'https://shopee.co.id/product/164872877/16697846407'},
+            { id: 'p14', name: 'Rak Sepatu Duduk Sofa Multifungsi', price: '150,0RB', link: 'https://s.shopee.co.id/8pb5EwxZVr', shopeeLink: 'https://shopee.co.id/product/514778925/21786530590'},
+            { id: 'p15', name: 'YLV Controller Joystick X3 Gamepad', price: '99,0RB', link: 'https://s.shopee.co.id/8Keoe1zTWm', shopeeLink: 'https://shopee.co.id/product/455517881/29612438533'},
+            { id: 'p16', name: 'HANASUI MINIPINK Series Lip Cream', price: '8,4RB', link: 'https://s.shopee.co.id/8UyEqKyqBp', shopeeLink: 'https://shopee.co.id/product/539077923/25200955604'},
+            { id: 'p17', name: 'otak otak ikan 500gr fresh', price: '8,2RB', link: 'https://s.shopee.co.id/801yFQ0kCk', shopeeLink: 'https://shopee.co.id/product/342863247/22186730339'},
+            { id: 'p18', name: 'Baso aci 5 bungkus hemat jeletot', price: '11,3RB', link: 'https://s.shopee.co.id/8ALORj06rn', shopeeLink: 'https://shopee.co.id/product/295091827/24657699989'},
+            { id: 'p19', name: 'Promo Daster Resleting Termurah', price: '20,0RB', link: 'https://s.shopee.co.id/7fP7qo20si', shopeeLink: 'https://shopee.co.id/product/1166499501/29776624296'},
+            { id: 'p20', name: 'jambu kristal 1 kg', price: '11,5RB', link: 'https://s.shopee.co.id/7fP7qx2z32', shopeeLink: 'https://shopee.co.id/product/1306874524/28705276051'},
+            { id: 'p21', name: 'BUY 1 GET 3 Makarizo Shampoo', price: '60,5RB', link: 'https://s.shopee.co.id/2B4BNZPwFk', shopeeLink: 'https://shopee.co.id/product/18102367/40804766941'},
+            { id: 'p22', name: 'Tas Louis Panda 295 Free Paper bag', price: '112,0RB', link: 'https://s.shopee.co.id/20klBGQZaj', shopeeLink: 'https://shopee.co.id/product/263090906/28374526856'},
+            { id: 'p23', name: 'GR Parfume - Full Bibit 20 ML', price: '11,0RB', link: 'https://s.shopee.co.id/2Vh1mBOfZq', shopeeLink: 'https://shopee.co.id/product/54668159/40553723161'},
+            { id: 'p24', name: 'Implora Hair Color [3 PCS]', price: '15,0RB', link: 'https://s.shopee.co.id/2LNbZsPIup', shopeeLink: 'https://shopee.co.id/product/10960132/26703602720'},
+            { id: 'p25', name: 'hijab segiempat paris polos varisha', price: '15,0RB', link: 'https://s.shopee.co.id/1VoUaLSTbg', shopeeLink: 'https://shopee.co.id/product/163167362/10998582595'},
+            { id: 'p26', name: 'Tas Selempang Simpel Elegan Yaguma', price: '43,6RB', link: 'https://s.shopee.co.id/1qRKyxRCvm', shopeeLink: 'https://shopee.co.id/product/876726680/26761713225'},
+            { id: 'p27', name: 'Hijab Instan Ayesa Tali Stopper', price: '47,4RB', link: 'https://s.shopee.co.id/1g7umeRqGl', shopeeLink: 'https://shopee.co.id/product/48127835/27186988509'},
+            { id: 'p28', name: 'Jims Honey - Ingrid Bag', price: '199,0RB', link: 'https://s.shopee.co.id/qYnn7V0xc', shopeeLink: 'https://shopee.co.id/product/17074378/25133241223'},
+            { id: 'p29', name: 'TOTEBAG SUMBU jelita viral', price: '5,5RB', link: 'https://s.shopee.co.id/gFNaoVeIb', shopeeLink: 'https://shopee.co.id/product/374958932/24986737768'},
+            { id: 'p30', name: 'Mlen Diary - Bulu Mata Palsu + Lem', price: '46,0RB', link: 'https://s.shopee.co.id/1BBeBjTkHi', shopeeLink: 'https://shopee.co.id/product/1102758398/26164807636'},
+            { id: 'p31', name: 'BUY 1 GET 1 Oneset Nina Simple', price: '116,9RB', link: 'https://s.shopee.co.id/10sDzQUNch', shopeeLink: 'https://shopee.co.id/product/30507741/26667259489'},
+            { id: 'p32', name: 'BUY 1 GET 1 Oneset Serut Nayla', price: '100,0RB', link: 'https://s.shopee.co.id/BJ6ztXYJY', shopeeLink: 'https://shopee.co.id/product/30507741/27160029733'},
+            { id: 'p33', name: 'Wardah Lightening Powder SPF 40', price: '16,4RB', link: 'https://s.shopee.co.id/zgnaYBeX', shopeeLink: 'https://shopee.co.id/product/1400037434/25940773684'},
+            { id: 'p34', name: 'TEBUS MURAH BAJU NFASHION', price: '60,0RB', link: 'https://s.shopee.co.id/4flWMAGQBV', shopeeLink: 'https://shopee.co.id/product/526899373/27172056916'},
+            { id: 'p35', name: 'Atasan Amanda Hirembulan', price: '100,0RB', link: 'https://s.shopee.co.id/5Ahmx5EWAc', shopeeLink: 'https://shopee.co.id/product/859640228/22865013586'}
         ];
 
         const productGrid = document.getElementById('product-list');
 
-        products.forEach(product => {
-            // -- BAGIAN PENTING: MEMASTIKAN GAMBAR MUNCUL --
-            // Menggunakan layanan proxy gambar `images.weserv.nl`.
-            // Layanan ini akan mengambil gambar utama dari halaman produk Shopee dan menampilkannya.
-            // Ini adalah cara paling efektif untuk hotlink gambar dari e-commerce.
-            const imageUrl = `https://images.weserv.nl/?url=${encodeURIComponent(product.shopeeLink.replace(/^https?:\/\//, ''))}&default=https://via.placeholder.com/300x300.png?text=Gagal+Muat`;
+        // Fungsi untuk mengambil gambar dari meta tag halaman produk
+        async function fetchProductImage(product) {
+            // Menggunakan proxy CORS gratis 'allorigins.win' untuk menghindari masalah CORS
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(product.shopeeLink)}`;
+            const fallbackImage = 'https://via.placeholder.com/300x300.png?text=Gambar+Tidak+Tersedia';
             
+            try {
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+                const html = data.contents;
+
+                // Ekstrak URL gambar dari meta tag 'og:image'
+                const match = html.match(/<meta\s+property="og:image"\s+content="([^"]+)"/);
+                const imageUrl = match ? match[1] : fallbackImage;
+
+                return imageUrl;
+            } catch (error) {
+                console.error(`Gagal mengambil gambar untuk ${product.name}:`, error);
+                return fallbackImage;
+            }
+        }
+
+        // Tampilkan placeholder dan loader terlebih dahulu
+        products.forEach(product => {
             const productCardHTML = `
-                <div class="product-card">
+                <div class="product-card" id="card-${product.id}">
                     <div class="product-image-container">
-                        <img src="${imageUrl}" alt="${product.name}" class="product-image" loading="lazy">
+                        <div class="loader"></div>
+                        <img id="img-${product.id}" alt="${product.name}" class="product-image" loading="lazy">
                     </div>
                     <div class="product-info">
                         <h3 class="product-name" title="${product.name}">${product.name}</h3>
@@ -347,6 +383,30 @@
                 </div>
             `;
             productGrid.innerHTML += productCardHTML;
+        });
+
+        // Muat gambar secara asinkron setelah placeholder ditampilkan
+        products.forEach(async (product) => {
+            const imageUrl = await fetchProductImage(product);
+            const imgElement = document.getElementById(`img-${product.id}`);
+            const cardElement = document.getElementById(`card-${product.id}`);
+            
+            if (imgElement && cardElement) {
+                imgElement.src = imageUrl;
+                imgElement.onload = () => {
+                    // Hapus loader dan tampilkan gambar
+                    const loader = cardElement.querySelector('.loader');
+                    if (loader) loader.style.display = 'none';
+                    imgElement.classList.add('loaded');
+                };
+                imgElement.onerror = () => {
+                     // Jika terjadi error saat memuat gambar, tampilkan gambar fallback
+                    const loader = cardElement.querySelector('.loader');
+                    if (loader) loader.style.display = 'none';
+                    imgElement.src = 'https://via.placeholder.com/300x300.png?text=Gagal+Muat';
+                    imgElement.classList.add('loaded');
+                };
+            }
         });
     });
     </script>
