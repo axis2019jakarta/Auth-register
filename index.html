@@ -1,118 +1,355 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Nabila Shop - Rekomendasi produk Shopee terbaik, termurah, dan terpercaya. Dukung lewat link affiliate kami.">
-  <title>Nabila Shop - Produk Terbaik Shopee</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nabila Shop - Belanja Online Mewah & Terlengkap</title>
+    <meta name="description" content="Nabila Shop adalah destinasi belanja online Anda untuk produk fashion, kecantikan, kebutuhan rumah tangga, dan lainnya dengan kualitas terbaik dan harga terjangkau.">
+    <meta name="keywords" content="Nabila Shop, belanja online, fashion, kecantikan, makeup, skincare, home living, produk viral, shopee affiliate">
+    <meta name="author" content="Nabila Shop">
+
+    <!-- Open Graph Meta Tags untuk SEO & Social Media Sharing -->
+    <meta property="og:title" content="Nabila Shop - Belanja Online Mewah & Terlengkap" />
+    <meta property="og:description" content="Temukan berbagai produk fashion, kecantikan, dan kebutuhan rumah tangga dengan penawaran terbaik di Nabila Shop." />
+    <meta property="og:image" content="https://i.ibb.co/9gXGzX7/nabila-shop-og-image.png" />
+    <meta property="og:url" content="URL_ANDA_SETELAH_DEPLOY" />
+    <meta property="og:type" content="website" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #8A2BE2; /* BlueViolet */
+            --secondary-color: #FF69B4; /* HotPink */
+            --accent-color: #FFD700; /* Gold */
+            --text-color: #333;
+            --bg-color: #F8F0FF;
+            --card-bg: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .menu-icons a {
+            color: white;
+            margin-left: 1.5rem;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .menu-icons a:hover {
+            color: var(--accent-color);
+        }
+
+        .hero {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 6rem 1rem;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .cta-button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .product-section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(138, 43, 226, 0.2);
+        }
+
+        .product-image-container {
+            width: 100%;
+            padding-top: 100%;
+            position: relative;
+            background-color: #f0f0f0;
+        }
+
+        .product-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0 0 0.5rem 0;
+            height: 40px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: auto 0 1rem 0;
+        }
+        
+        .buy-button {
+            display: block;
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 0.8rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.3s;
+            margin-top: auto;
+        }
+
+        .buy-button i {
+            margin-right: 8px;
+        }
+
+        .buy-button:hover {
+            background: var(--secondary-color);
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .logo {
+                font-size: 1.5rem;
+            }
+            .menu-icons a {
+                font-size: 1.2rem;
+                margin-left: 1rem;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body>
 
-  <header class="bg-orange-500 text-white py-6 text-center shadow-md">
-    <h1 class="text-3xl font-bold">🛍️ Nabila Shop - Produk Terbaik di Shopee 🛍️</h1>
-    <p class="text-sm mt-2">Klik dan beli langsung via Shopee. Dukung kami lewat link affiliate 💖</p>
-  </header>
-
-  <main class="max-w-6xl mx-auto px-4 py-10">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-
-      <!-- Produk 1 -->
-      <div class="border rounded-lg shadow hover:shadow-xl transition duration-300 bg-white">
-        <img src="https://via.placeholder.com/400x250?text=Lipstik+Matte" alt="Lipstik Matte" class="rounded-t-lg">
-        <div class="p-4">
-          <h2 class="font-semibold text-lg mb-2">Lipstik Batang Matte Maybelline/Revlon</h2>
-          <a href="https://s.shopee.co.id/9zn2bhyrLO" target="_blank" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">Beli Sekarang</a>
+    <header>
+        <div class="container">
+            <div class="logo">Nabila Shop</div>
+            <nav class="menu-icons">
+                <a href="#products" aria-label="Produk"><i class="fas fa-store"></i></a>
+                <a href="https://wa.me/6285810526151" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://instagram.com/USERNAME_INSTAGRAM_ANDA" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </nav>
         </div>
-      </div>
+    </header>
 
-      <!-- Produk 2 -->
-      <div class="border rounded-lg shadow hover:shadow-xl transition duration-300 bg-white">
-        <img src="https://via.placeholder.com/400x250?text=Baso+Aci" alt="Baso Aci" class="rounded-t-lg">
-        <div class="p-4">
-          <h2 class="font-semibold text-lg mb-2">Baso Aci 3 Bungkus Hemat</h2>
-          <a href="https://s.shopee.co.id/801yF1Toh6" target="_blank" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">Beli Sekarang</a>
-        </div>
-      </div>
+    <main>
+        <section class="hero">
+            <h1>Discover Your Glamour</h1>
+            <p>Penawaran Eksklusif untuk Produk Pilihan Terbaik. Belanja Sekarang dan Tampil Beda!</p>
+            <a href="#products" class="cta-button">Jelajahi Koleksi</a>
+        </section>
 
-      <!-- Produk 3 -->
-      <div class="border rounded-lg shadow hover:shadow-xl transition duration-300 bg-white">
-        <img src="https://via.placeholder.com/400x250?text=Sabun+Mandi" alt="Sabun Mandi" class="rounded-t-lg">
-        <div class="p-4">
-          <h2 class="font-semibold text-lg mb-2">Sabun Mandi Cair 1 Liter</h2>
-          <a href="https://s.shopee.co.id/AKPt1LgGJ6" target="_blank" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">Beli Sekarang</a>
-        </div>
-      </div>
+        <section id="products" class="product-section container">
+            <h2 class="section-title">Produk Terlaris</h2>
+            <div class="product-grid" id="product-list">
+                <!-- Produk akan dimasukkan di sini oleh JavaScript -->
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>© 2024 Nabila Shop. Dibuat dengan <i class="fas fa-heart" style="color: #FF69B4;"></i>.</p>
+    </footer>
 
-      <!-- Produk 4 -->
-      <div class="border rounded-lg shadow hover:shadow-xl transition duration-300 bg-white">
-        <img src="https://via.placeholder.com/400x250?text=Keripik+Nangka" alt="Keripik Nangka" class="rounded-t-lg">
-        <div class="p-4">
-          <h2 class="font-semibold text-lg mb-2">Keripik Nangka Oven 100gr</h2>
-          <a href="https://s.shopee.co.id/4flWGyW6F6" target="_blank" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">Beli Sekarang</a>
-        </div>
-      </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Daftar semua produk yang Anda berikan
+        const products = [
+            { name: 'Lipstik Batang Matte Maybelline/Revlon', price: '14,0RB', link: 'https://s.shopee.co.id/9zn2bhyrLO', shopeeLink: 'https://shopee.co.id/product/391401723/29322041131'},
+            { name: 'SAMPUL BUKU AESTHETIC - 10 LEMBAR', price: '28,5RB', link: 'https://s.shopee.co.id/801yF1Toh6', shopeeLink: 'https://shopee.co.id/product/227381251/16478391377'},
+            { name: 'Rak Dapur Serbaguna Minimalis', price: '173,6RB', link: 'https://s.shopee.co.id/AKPt1LgGJ6', shopeeLink: 'https://shopee.co.id/product/1012592182/22770999582'},
+            { name: 'Kasur Gender Tebal 6cm [COD]', price: '76,6RB', link: 'https://s.shopee.co.id/4flWGyW6F6', shopeeLink: 'https://shopee.co.id/product/918275376/19468201309'},
+            { name: 'HNF CCTV Kamera Outdoor 8MP Tahan Air', price: '59,8RB', link: 'https://s.shopee.co.id/6fWaegwSmW', shopeeLink: 'https://shopee.co.id/product/1443138536/26323503668'},
+            { name: 'Gamis Muslim Midi Dress Terbaru', price: '183,0RB', link: 'https://s.shopee.co.id/VvxJOsk2T', shopeeLink: 'https://shopee.co.id/product/251189623/41158348762'},
+            { name: 'sampo pentene renceng murah', price: '7,0RB', link: 'https://s.shopee.co.id/8KeodonTIi', shopeeLink: 'https://shopee.co.id/product/229065050/44358123575'},
+            { name: 'Harsa - Parfume Wanita Terlaris', price: '10,0RB', link: 'https://s.shopee.co.id/30dII4lfng', shopeeLink: 'https://shopee.co.id/product/37752811/44408783002'},
+            { name: 'Baso Aci 3 Bungkus Hemat', price: '7,5RB', link: 'https://s.shopee.co.id/9KXLprvfUs', shopeeLink: 'https://shopee.co.id/product/295091827/24357694999'},
+            { name: 'SABUN MANDI Cair 1 Liter Repack', price: '14,9RB', link: 'https://s.shopee.co.id/9Uqm2Av29v', shopeeLink: 'https://shopee.co.id/product/1171450817/25860472987'},
+            { name: 'KERIPIK NANGKA OVEN SUPER 100GR', price: '21,0RB', link: 'https://s.shopee.co.id/8zuVRFwwAq', shopeeLink: 'https://shopee.co.id/product/70834502/7216928128'},
+            { name: '36 pcs RINSO MOLTO CAIR RENCENGAN', price: '17,8RB', link: 'https://s.shopee.co.id/9ADvdYwIpt', shopeeLink: 'https://shopee.co.id/product/148700842/20881892360'},
+            { name: 'Minyak Goreng Pouch Murah', price: '27,9RB', link: 'https://s.shopee.co.id/8fHf2dyCqo', shopeeLink: 'https://shopee.co.id/product/164872877/16697846407'},
+            { name: 'Rak Sepatu Duduk Sofa Multifungsi', price: '150,0RB', link: 'https://s.shopee.co.id/8pb5EwxZVr', shopeeLink: 'https://shopee.co.id/product/514778925/21786530590'},
+            { name: 'YLV Controller Joystick X3 Gamepad', price: '99,0RB', link: 'https://s.shopee.co.id/8Keoe1zTWm', shopeeLink: 'https://shopee.co.id/product/455517881/29612438533'},
+            { name: 'HANASUI MINIPINK Series Lip Cream', price: '8,4RB', link: 'https://s.shopee.co.id/8UyEqKyqBp', shopeeLink: 'https://shopee.co.id/product/539077923/25200955604'},
+            { name: 'otak otak ikan 500gr fresh', price: '8,2RB', link: 'https://s.shopee.co.id/801yFQ0kCk', shopeeLink: 'https://shopee.co.id/product/342863247/22186730339'},
+            { name: 'Baso aci 5 bungkus hemat jeletot', price: '11,3RB', link: 'https://s.shopee.co.id/8ALORj06rn', shopeeLink: 'https://shopee.co.id/product/295091827/24657699989'},
+            { name: 'Promo Daster Resleting Termurah', price: '20,0RB', link: 'https://s.shopee.co.id/7fP7qo20si', shopeeLink: 'https://shopee.co.id/product/1166499501/29776624296'},
+            { name: 'jambu kristal 1 kg', price: '11,5RB', link: 'https://s.shopee.co.id/7fP7qx2z32', shopeeLink: 'https://shopee.co.id/product/1306874524/28705276051'},
+            { name: 'BUY 1 GET 3 Makarizo Shampoo', price: '60,5RB', link: 'https://s.shopee.co.id/2B4BNZPwFk', shopeeLink: 'https://shopee.co.id/product/18102367/40804766941'},
+            { name: 'Tas Louis Panda 295 Free Paper bag', price: '112,0RB', link: 'https://s.shopee.co.id/20klBGQZaj', shopeeLink: 'https://shopee.co.id/product/263090906/28374526856'},
+            { name: 'GR Parfume - Full Bibit 20 ML', price: '11,0RB', link: 'https://s.shopee.co.id/2Vh1mBOfZq', shopeeLink: 'https://shopee.co.id/product/54668159/40553723161'},
+            { name: 'Implora Hair Color [3 PCS]', price: '15,0RB', link: 'https://s.shopee.co.id/2LNbZsPIup', shopeeLink: 'https://shopee.co.id/product/10960132/26703602720'},
+            { name: 'hijab segiempat paris polos varisha', price: '15,0RB', link: 'https://s.shopee.co.id/1VoUaLSTbg', shopeeLink: 'https://shopee.co.id/product/163167362/10998582595'},
+            { name: 'Tas Selempang Simpel Elegan Yaguma', price: '43,6RB', link: 'https://s.shopee.co.id/1qRKyxRCvm', shopeeLink: 'https://shopee.co.id/product/876726680/26761713225'},
+            { name: 'Hijab Instan Ayesa Tali Stopper', price: '47,4RB', link: 'https://s.shopee.co.id/1g7umeRqGl', shopeeLink: 'https://shopee.co.id/product/48127835/27186988509'},
+            { name: 'Jims Honey - Ingrid Bag', price: '199,0RB', link: 'https://s.shopee.co.id/qYnn7V0xc', shopeeLink: 'https://shopee.co.id/product/17074378/25133241223'},
+            { name: 'TOTEBAG SUMBU jelita viral', price: '5,5RB', link: 'https://s.shopee.co.id/gFNaoVeIb', shopeeLink: 'https://shopee.co.id/product/374958932/24986737768'},
+            { name: 'Mlen Diary - Bulu Mata Palsu + Lem', price: '46,0RB', link: 'https://s.shopee.co.id/1BBeBjTkHi', shopeeLink: 'https://shopee.co.id/product/1102758398/26164807636'},
+            { name: 'BUY 1 GET 1 Oneset Nina Simple', price: '116,9RB', link: 'https://s.shopee.co.id/10sDzQUNch', shopeeLink: 'https://shopee.co.id/product/30507741/26667259489'},
+            { name: 'BUY 1 GET 1 Oneset Serut Nayla', price: '100,0RB', link: 'https://s.shopee.co.id/BJ6ztXYJY', shopeeLink: 'https://shopee.co.id/product/30507741/27160029733'},
+            { name: 'Wardah Lightening Powder SPF 40', price: '16,4RB', link: 'https://s.shopee.co.id/zgnaYBeX', shopeeLink: 'https://shopee.co.id/product/1400037434/25940773684'},
+            { name: 'TEBUS MURAH BAJU NFASHION', price: '60,0RB', link: 'https://s.shopee.co.id/4flWMAGQBV', shopeeLink: 'https://shopee.co.id/product/526899373/27172056916'},
+            { name: 'Atasan Amanda Hirembulan', price: '100,0RB', link: 'https://s.shopee.co.id/5Ahmx5EWAc', shopeeLink: 'https://shopee.co.id/product/859640228/22865013586'}
+        ];
 
-      <!-- Produk 5 -->
-      <div class="border rounded-lg shadow hover:shadow-xl transition duration-300 bg-white">
-        <img src="https://via.placeholder.com/400x250?text=Rinso+Cair" alt="Rinso Cair" class="rounded-t-lg">
-        <div class="p-4">
-          <h2 class="font-semibold text-lg mb-2">36 pcs RINSO MOLTO CAIR</h2>
-          <a href="https://s.shopee.co.id/6fWaegwSmW" target="_blank" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">Beli Sekarang</a>
-        </div>
-      </div>
+        const productGrid = document.getElementById('product-list');
 
-      <!-- Produk 6 -->
-      <div class="border rounded-lg shadow hover:shadow-xl transition duration-300 bg-white">
-        <img src="https://via.placeholder.com/400x250?text=Minyak+Goreng" alt="Minyak Goreng" class="rounded-t-lg">
-        <div class="p-4">
-          <h2 class="font-semibold text-lg mb-2">Minyak Goreng Pouch Murah</h2>
-          <a href="https://s.shopee.co.id/VvxJOsk2T" target="_blank" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">Beli Sekarang</a>
-        </div>
-      </div>
-
-      <!-- Produk 7 -->
-      <div class="border rounded-lg shadow hover:shadow-xl transition duration-300 bg-white">
-        <img src="https://via.placeholder.com/400x250?text=Rak+Sepatu" alt="Rak Sepatu" class="rounded-t-lg">
-        <div class="p-4">
-          <h2 class="font-semibold text-lg mb-2">Rak Sepatu Duduk Sofa Multifungsi</h2>
-          <a href="https://s.shopee.co.id/8KeodonTIi" target="_blank" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">Beli Sekarang</a>
-        </div>
-      </div>
-
-      <!-- Produk 8 -->
-      <div class="border rounded-lg shadow hover:shadow-xl transition duration-300 bg-white">
-        <img src="https://via.placeholder.com/400x250?text=Joystick+X3" alt="Joystick X3" class="rounded-t-lg">
-        <div class="p-4">
-          <h2 class="font-semibold text-lg mb-2">Joystick Bluetooth X3 Android/PC</h2>
-          <a href="https://s.shopee.co.id/30dII4lfng" target="_blank" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">Beli Sekarang</a>
-        </div>
-      </div>
-
-      <!-- Produk 9 -->
-      <div class="border rounded-lg shadow hover:shadow-xl transition duration-300 bg-white">
-        <img src="https://via.placeholder.com/400x250?text=HANASUI+Lip+Cream" alt="HANASUI Lip Cream" class="rounded-t-lg">
-        <div class="p-4">
-          <h2 class="font-semibold text-lg mb-2">HANASUI MINIPINK Lip Cream BOBA</h2>
-          <a href="https://s.shopee.co.id/9pTcQmtlTx" target="_blank" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">Beli Sekarang</a>
-        </div>
-      </div>
-
-      <!-- Produk 10 -->
-      <div class="border rounded-lg shadow hover:shadow-xl transition duration-300 bg-white">
-        <img src="https://via.placeholder.com/400x250?text=Otak+Otak+Ikan" alt="Otak Otak" class="rounded-t-lg">
-        <div class="p-4">
-          <h2 class="font-semibold text-lg mb-2">Otak Otak Ikan 500gr Fresh</h2>
-          <a href="https://s.shopee.co.id/9KXLprvfUs" target="_blank" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 inline-block">Beli Sekarang</a>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <footer class="text-center py-8 text-gray-500 text-sm">
-    &copy; 2025 <strong>Nabila Shop</strong>. Dibangun dengan cinta dan komisi 🧡
-  </footer>
+        products.forEach(product => {
+            // -- BAGIAN PENTING: MEMASTIKAN GAMBAR MUNCUL --
+            // Menggunakan layanan proxy gambar `images.weserv.nl`.
+            // Layanan ini akan mengambil gambar utama dari halaman produk Shopee dan menampilkannya.
+            // Ini adalah cara paling efektif untuk hotlink gambar dari e-commerce.
+            const imageUrl = `https://images.weserv.nl/?url=${encodeURIComponent(product.shopeeLink.replace(/^https?:\/\//, ''))}&default=https://via.placeholder.com/300x300.png?text=Gagal+Muat`;
+            
+            const productCardHTML = `
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="${imageUrl}" alt="${product.name}" class="product-image" loading="lazy">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name" title="${product.name}">${product.name}</h3>
+                        <p class="product-price">Rp${product.price}</p>
+                        <a href="${product.link}" target="_blank" class="buy-button">
+                            <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                        </a>
+                    </div>
+                </div>
+            `;
+            productGrid.innerHTML += productCardHTML;
+        });
+    });
+    </script>
 
 </body>
 </html>
